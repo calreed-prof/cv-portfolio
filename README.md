@@ -15,7 +15,7 @@ Each project feeds into the next (roughly)
 |---|---------|--------|----------|
 |01|Stereo Depth Estimation|SGBM, RAFT-Stereo, Middlebury|[Substack](https://substack.com/home/post/p-201244727)|
 |02|Edge Detection from Scratch|Sobel, Convolution, From-Scratch|[Substack](https://substack.com/home/post/p-201245282)|
-|03|U-Net Edge Detection (Sobel-Supervised)|PyTorch, U-Net, Sobel|[Coming Soon]()|
+|03|Architecture Comparison on BDD100k Segmentation|PyTorch, U-Net, Segformer|[In Progress]()|
 
 ### Repo Structure
 ```
@@ -27,7 +27,11 @@ CV-Portfolio
 │       Depth_Perception_Tutorial_w_Middlebury.ipynb
 │       README.md
 │
-└───02-edge-detection
+├───02-edge-detection
+│       README.md
+│       Sobel_Edge_Detection.ipynb
+│
+└───03-model-comparison-bdd100k
         README.md
-        Sobel_Edge_Detection.ipynb
+        unet-bdd100k-b4-imagenet.ipynb
 ```
