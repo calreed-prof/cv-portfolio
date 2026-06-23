@@ -32,7 +32,7 @@ This metric takes the area of overlap divided by the area of union, or in simple
 $$
 \frac{\text{True Positives}}{\text{True Positives} + \text{False Positives} + \text{False Negatives}}
 $$
-![alt text](image.png)
+![alt text](media/image.png)
 
 # U-Net
 

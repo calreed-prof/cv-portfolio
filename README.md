@@ -9,7 +9,7 @@ I started in technical support and moved into analytics by demonstrating the nee
 ![Static Badge](https://img.shields.io/badge/Python-60A5FA) ![Static Badge](https://img.shields.io/badge/PyTorch-34D399) ![Static Badge](https://img.shields.io/badge/OpenCV-A78BFA) ![Static Badge](https://img.shields.io/badge/NumPy-FBBF24) ![Static Badge](https://img.shields.io/badge/Manim-F472B6)
 
 ### Projects
-Each project feeds into the next (roughly)
+Each project feeds into the next (sort of)
 
 | # | Project | Topics | Write-up |
 |---|---------|--------|----------|
