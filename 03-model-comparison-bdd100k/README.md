@@ -63,7 +63,7 @@ $$
 *Quick Latency Notes: A100, 360x640, bfloat16, batch size 1*
 
 Training Loss:
-![](media/W&B%20Chart%206_22_2026,%203_04_59%20PM.png)
+![](media/unet-train-val-loss.png)
 
 We had a val loss hiccup on iteration 7, this is attributed to the Cosine Scheduler
 
@@ -81,4 +81,52 @@ This is impressive for an architecture that came out 11 years ago.
 
 # DeepLabV3+
 
-Work in Progress
+- Parameters
+    - learning rate
+        - encoder = 1e-4
+        - decoder = 5e-4
+        - segmentation head = 5e-4
+    - encoder = 'resnet101'
+    - encoder_weights = 'imagenet'
+    - batch_size = 32
+    - num_epochs = 80
+    - patience = 14
+
+- dtype = bfloat16
+- Input Resolution = 360, 640
+- Training GPU = A100
+- Loss = (Focal * 0.4) + (Dice * 0.6)
+    - **Focal Loss**: This loss function is for extreme class imbalances. in BDD100k there are multiple classes that barely take up any image space. This function works perfectly to combat that.
+    - **Dice Loss**: This loss function is also perfect for class imbalance. Additionally, it works directly in tandem with MIOU helping us optimize for our metric. 
+- Optimizer = AdamW
+- Scheduler = PolynomialLR
+
+## Results
+
+| MIOU   | MIOU (Train Excl) | Iterations | Params | MACs  | Latency | FPS  | Size   |
+|--------|-------------------|------------|--------|-------|---------|------|--------|
+| 58.33% | 61.57%            | ~10K        | 45.7M   | 56.5G | 14.67ms | 68.2 | 183.4MB |
+
+*Quick Latency Notes: A100, 360x640, bfloat16, batch size 1*
+
+Training Loss:
+![](media/deeplabv3-train-val-loss.png)
+
+We had a val loss hiccup on iteration 7, this is attributed to the Cosine Scheduler
+
+Per Class IOU:
+
+![alt text](media/deeplabv3-per-class-iou.png)
+
+You may be surpised to see a lower MIOU score compared to the U-Net architecture especially since DeepLabV3+ is much newer. However there are a couple reasons for this.
+1. Training Data: The training data is a lot smaller than what this model would expect. Whereas U-Net works great even with small datasets.
+2. DeepLabV3+ & ASPP: ASPP allows this architecture to look at a much wider area while only analyzing the same amount of pixels. for example with r=2 it will cover a 6x6 square but only look at every other pixel. This helps with larger regions but with thin specific details like a fence or a pole it performs much worse.
+3. Asymmetry: DeepLabV3+ moves away from the symmetric encoder and decoder layers. Instead relying on the ecoder to provide most of the work. This allows us to have much faster latency in turn for a little less MIOU.
+
+ASPP Example:
+
+![alt text](media/ASPP-example.png)
+
+Example Output:
+
+![alt text](media/deeplabv43-example.png)
